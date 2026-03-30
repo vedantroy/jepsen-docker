@@ -34,19 +34,22 @@ networks:
   jepsen:
 
 services:
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
-    container_name: jepsen-cadvisor
-    ports:
-      - 8081:8080
-    volumes:
-      - /:/rootfs:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker:/var/lib/docker:ro
-      - /dev/disk:/dev/disk:ro
-    privileged: true
+  # cAdvisor is intentionally disabled in this macOS/Docker Desktop workflow.
+  # The container-level memory figures were misleading here, so we rely on
+  # `docker stats` via `./scripts/monitor-etcd-run.sh resource-stats` instead.
+  # cadvisor:
+  #   image: gcr.io/cadvisor/cadvisor:v0.49.1
+  #   container_name: jepsen-cadvisor
+  #   ports:
+  #     - 8081:8080
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker:/var/lib/docker:ro
+  #     - /dev/disk:/dev/disk:ro
+  #   privileged: true
 
   setup:
     <<: *defaults
