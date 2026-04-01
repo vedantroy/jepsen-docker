@@ -3,7 +3,8 @@ set -e
 
 # We add our hostname to the shared volume, so that control can find us
 echo "Adding hostname to shared volume" >> /var/log/jepsen-setup.log
-hostname >> /var/jepsen/shared/nodes
+touch /var/jepsen/shared/nodes
+grep -qxF "$(hostname)" /var/jepsen/shared/nodes || hostname >> /var/jepsen/shared/nodes
 
 # We make sure that node's authorized keys are ready
 echo "Setting up node's authorized_keys" >> /var/log/jepsen-setup.log
